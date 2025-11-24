@@ -1,6 +1,5 @@
 /* styles.css */
 
-/* Скрываем нативный скроллбар для красоты */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -16,11 +15,9 @@
 }
 
 body {
-    /* Глобальные настройки типографики */
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
 }
 
-/* Навигационные ссылки */
 .nav-link {
     display: block;
     padding: 0.5rem 1rem;
@@ -55,7 +52,6 @@ body {
     color: #38bdf8;
 }
 
-/* Заголовки разделов */
 .section-title {
     font-family: 'Playfair Display', serif;
     font-size: 2rem;
@@ -91,7 +87,7 @@ body {
     border-color: #38bdf8;
 }
 
-/* Кастомные слайдеры */
+/* Slider */
 .slider {
     -webkit-appearance: none;
     width: 100%;
@@ -120,7 +116,7 @@ body {
     transform: scale(1.2);
 }
 
-/* Анимации скролла */
+/* Animations */
 .reveal-on-scroll {
     opacity: 0;
     transform: translateY(30px);
@@ -132,11 +128,71 @@ body {
     transform: translateY(0);
 }
 
-/* Пульсация для логотипа */
 @keyframes pulse-slow {
     0%, 100% { opacity: 1; }
     50% { opacity: 0.7; }
 }
 .animate-pulse-slow {
     animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* === NEWS TICKER ANIMATION (Feature 4) === */
+.animate-marquee {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 30s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* === GLITCH EFFECT (Feature 3) === */
+.glitch-hover {
+    position: relative;
+}
+
+/* Только при наведении активируем эффект */
+.glitch-hover:hover::before,
+.glitch-hover:hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0f172a; /* Должен совпадать с цветом фона */
+    opacity: 0.8;
+}
+
+.glitch-hover:hover::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    animation: glitch-anim-1 0.4s infinite linear alternate-reverse;
+}
+
+.glitch-hover:hover::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    animation: glitch-anim-2 0.4s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim-1 {
+    0% { clip-path: inset(20% 0 80% 0); }
+    20% { clip-path: inset(60% 0 10% 0); }
+    40% { clip-path: inset(40% 0 50% 0); }
+    60% { clip-path: inset(80% 0 5% 0); }
+    80% { clip-path: inset(10% 0 70% 0); }
+    100% { clip-path: inset(30% 0 50% 0); }
+}
+
+@keyframes glitch-anim-2 {
+    0% { clip-path: inset(10% 0 60% 0); }
+    20% { clip-path: inset(30% 0 20% 0); }
+    40% { clip-path: inset(70% 0 20% 0); }
+    60% { clip-path: inset(20% 0 60% 0); }
+    80% { clip-path: inset(50% 0 30% 0); }
+    100% { clip-path: inset(0% 0 80% 0); }
 }

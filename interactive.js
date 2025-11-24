@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMenu();
 });
 
-// === 1. ВИЗУАЛЬНЫЙ КАЛЬКУЛЯТОР (Gauge Effect) ===
+// === 1. ВИЗУАЛЬНЫЙ КАЛЬКУЛЯТОР ===
 function initCalculator() {
     const inputs = {
         meat: document.getElementById('input-meat'),
@@ -25,7 +25,6 @@ function initCalculator() {
     const resultVerdict = document.getElementById('result-verdict');
     const gaugeCircle = document.getElementById('gauge-circle');
     
-    // Длина окружности SVG (r=88 -> 2*pi*88 ≈ 552)
     const circumference = 552;
 
     function calculate() {
@@ -34,27 +33,21 @@ function initCalculator() {
         const tCooking = parseFloat(inputs.time.value);
         const kSalt = parseFloat(inputs.salt.value);
 
-        // Обновляем текст
         displays.meat.textContent = `${rhoMeat}%`;
         displays.fat.textContent = `${rhoFat}%`;
         displays.time.textContent = `${tCooking} млрд`;
         displays.salt.textContent = kSalt;
 
-        // Формула
         let rawOmega = (rhoMeat + rhoFat) / (tCooking * kSalt) * 10;
         let omega = parseFloat(rawOmega.toFixed(2));
 
-        // Анимация чисел
         resultOmega.textContent = omega.toFixed(2);
 
-        // Логика круговой диаграммы
-        // Нормализуем значение (допустим, макс разумное значение ~30 для полной шкалы)
         const maxScale = 30;
         const percent = Math.min(omega / maxScale, 1);
         const offset = circumference - (percent * circumference);
         gaugeCircle.style.strokeDashoffset = offset;
 
-        // Логика вердикта и цветов
         let verdict = "";
         let colorClass = "";
         let gaugeColor = "";
@@ -86,13 +79,20 @@ function initCalculator() {
     calculate();
 }
 
-// === 2. BACKGROUND CANVAS (Cosmic Soup Bubbles) ===
+// === 2. BACKGROUND CANVAS WITH MOUSE INTERACTION (Feature 1) ===
 function initCanvasBackground() {
     const canvas = document.getElementById('soup-canvas');
     const ctx = canvas.getContext('2d');
     
     let width, height;
     let bubbles = [];
+    
+    // Отслеживание мыши
+    let mouse = { x: -1000, y: -1000 };
+    window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+    });
 
     function resize() {
         width = window.innerWidth;
@@ -108,30 +108,61 @@ function initCanvasBackground() {
 
         reset(initial = false) {
             this.x = Math.random() * width;
-            // Если начальная инициализация, разбрасываем по всему экрану, иначе только снизу
             this.y = initial ? Math.random() * height : height + 20;
-            this.size = Math.random() * 4 + 1; // Маленькие частицы
+            this.size = Math.random() * 4 + 1; 
             this.speed = Math.random() * 0.5 + 0.2;
             this.opacity = Math.random() * 0.5 + 0.1;
             this.wobble = Math.random() * Math.PI * 2;
             this.wobbleSpeed = Math.random() * 0.02 + 0.01;
+            
+            // Инерция для отталкивания
+            this.vx = 0;
+            this.vy = 0;
         }
 
         update() {
+            // Естественное всплытие
             this.y -= this.speed;
             this.wobble += this.wobbleSpeed;
             this.x += Math.sin(this.wobble) * 0.5;
 
+            // === ЛОГИКА ОТТАЛКИВАНИЯ ОТ МЫШИ ===
+            let dx = mouse.x - this.x;
+            let dy = mouse.y - this.y;
+            let distance = Math.sqrt(dx*dx + dy*dy);
+            let maxDist = 150; // Радиус взаимодействия
+
+            if (distance < maxDist) {
+                // Вектор силы
+                const force = (maxDist - distance) / maxDist;
+                const angle = Math.atan2(dy, dx);
+                
+                // Отталкиваем в противоположную сторону
+                const pushX = -Math.cos(angle) * force * 2; // Сила
+                const pushY = -Math.sin(angle) * force * 2;
+
+                this.vx += pushX;
+                this.vy += pushY;
+            }
+
+            // Применяем инерцию и затухание
+            this.x += this.vx;
+            this.y += this.vy;
+            this.vx *= 0.95; // Трение
+            this.vy *= 0.95;
+
+            // Сброс, если улетел за экран
+            if (this.x > width + 50) this.x = -50;
+            if (this.x < -50) this.x = width + 50;
             if (this.y < -50) this.reset();
         }
 
         draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity})`; // Blue accents
+            ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity})`;
             ctx.fill();
             
-            // Иногда рисуем "жир" (золотые частицы)
             if (Math.random() > 0.98) {
                 ctx.strokeStyle = `rgba(251, 191, 36, ${this.opacity * 0.5})`;
                 ctx.stroke();
@@ -141,7 +172,6 @@ function initCanvasBackground() {
 
     function initBubbles() {
         bubbles = [];
-        // Количество пузырей зависит от ширины экрана
         const count = Math.floor(width / 10); 
         for (let i = 0; i < count; i++) {
             bubbles.push(new Bubble());
@@ -181,7 +211,6 @@ function initScrollAnimations() {
         observer.observe(el);
     });
 
-    // Также подсвечиваем ссылки в меню
     const sections = document.querySelectorAll('section');
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -204,13 +233,12 @@ function initScrollAnimations() {
     });
 }
 
-// === 4. MOBILE MENU TOGGLE ===
+// === 4. MOBILE MENU ===
 function initMobileMenu() {
     const btn = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
     
     btn.addEventListener('click', () => {
-        // Toggle translate class
         if (sidebar.classList.contains('-translate-x-full')) {
             sidebar.classList.remove('-translate-x-full');
         } else {

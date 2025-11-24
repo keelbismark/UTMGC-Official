@@ -39,7 +39,7 @@
     </script>
 </head>
 
-<body class="bg-soup-dark text-slate-200 antialiased overflow-x-hidden selection:bg-soup-accent selection:text-soup-dark">
+<body class="bg-soup-dark text-slate-200 antialiased overflow-x-hidden selection:bg-soup-accent selection:text-soup-dark pb-10">
 
     <canvas id="soup-canvas" class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none"></canvas>
 
@@ -58,7 +58,7 @@
                         <span class="text-xl">🍲</span>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-serif font-bold text-white tracking-wide">ОТМГК</h1>
+                        <h1 class="text-2xl font-serif font-bold text-white tracking-wide glitch-hover" data-text="ОТМГК">ОТМГК</h1>
                         <p class="text-[10px] uppercase tracking-widest text-soup-accent opacity-80">Ver 4.2 | Final Release</p>
                     </div>
                 </div>
@@ -94,7 +94,8 @@
                 <div class="inline-block px-3 py-1 rounded-full bg-soup-accent/10 border border-soup-accent/20 text-soup-accent text-xs font-bold tracking-widest mb-4">
                     ФУНДАМЕНТАЛЬНАЯ НАУКА
                 </div>
-                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 leading-tight glitch-hover" 
+                    data-text="Общая Теория Макро-Гастрономического Континуума">
                     Общая Теория <br>
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-soup-accent to-soup-gold">Макро-Гастрономического</span> <br>
                     Континуума
@@ -105,7 +106,7 @@
             </header>
 
             <section id="abstract" class="mb-24 reveal-on-scroll">
-                <h2 class="section-title">01. Абстракт</h2>
+                <h2 class="section-title glitch-hover" data-text="01. Абстракт">01. Абстракт</h2>
                 <div class="glass-card">
                     <p class="text-lg leading-relaxed">
                         Традиционная физика ошибочно интерпретирует космос как вакуум. Наш документ постулирует существование **Мета-Кастрюли**. Все наблюдаемые явления — от гравитации до энтропии — суть проявления гидродинамики варки.
@@ -124,7 +125,7 @@
             </section>
 
             <section id="theory-main" class="mb-24">
-                <h2 class="section-title reveal-on-scroll">02. Тезисы Теории</h2>
+                <h2 class="section-title reveal-on-scroll glitch-hover" data-text="02. Тезисы Теории">02. Тезисы Теории</h2>
 
                 <div class="space-y-12">
                     <div id="cosmogony" class="reveal-on-scroll">
@@ -175,7 +176,7 @@
             </section>
 
             <section id="dynamics" class="mb-24 reveal-on-scroll">
-                <h2 class="section-title">03. Динамика и Эсхатология</h2>
+                <h2 class="section-title glitch-hover" data-text="03. Динамика и Эсхатология">03. Динамика и Эсхатология</h2>
                 <div class="glass-card border-l-4 border-red-500">
                     <h3 class="text-xl font-bold text-white mb-2">Гипотеза Ложки (The Spoon Hypothesis)</h3>
                     <p class="mb-4">Ускоренное расширение вызвано турбулентностью от периодического помешивания Демиургом.</p>
@@ -185,7 +186,7 @@
             </section>
 
             <section id="calculator" class="mb-24 reveal-on-scroll">
-                <h2 class="section-title text-soup-gold">04. Лаборатория Навара</h2>
+                <h2 class="section-title text-soup-gold glitch-hover" data-text="04. Лаборатория Навара">04. Лаборатория Навара</h2>
                 
                 <div class="bg-slate-900/50 border border-white/10 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-xl relative">
                     <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#38bdf8 1px, transparent 1px); background-size: 20px 20px;"></div>
@@ -261,6 +262,24 @@
             </footer>
 
         </main>
+    </div>
+    
+    <div class="fixed bottom-0 left-0 w-full bg-soup-base/95 border-t border-soup-accent/20 py-2 overflow-hidden z-50 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+        <div class="whitespace-nowrap animate-marquee text-xs font-mono text-soup-accent flex items-center">
+            <span class="mx-4">+++ СРОЧНАЯ МОЛНИЯ:</span>
+            <span class="mx-4">В секторе Гамма-9 обнаружен гигантский лавровый лист</span>
+            <span class="mx-4 text-soup-gold">●</span>
+            <span class="mx-4">Плотность фрикаделек превысила критическую массу</span>
+            <span class="mx-4 text-soup-gold">●</span>
+            <span class="mx-4">Демиург потянулся за солонкой, ожидаются гравитационные волны</span>
+            <span class="mx-4 text-soup-gold">●</span>
+            <span class="mx-4">Котировки макаронных изделий стремятся к сингулярности</span>
+            <span class="mx-4 text-soup-gold">●</span>
+            <span class="mx-4">Индекс наваристости стабилен</span>
+            <span class="mx-4 text-soup-gold">●</span>
+            <span class="mx-4">Внимание: не снимайте пенку с горизонта событий</span>
+            <span class="mx-4">+++</span>
+        </div>
     </div>
 
     <script src="interactive.js"></script>
